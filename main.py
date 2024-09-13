@@ -6,11 +6,15 @@ import pandas as pd
 import torch
 from dotenv import load_dotenv
 from fastapi import FastAPI, status, APIRouter, HTTPException, Path
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import ValidationError
 from sentence_transformers import SentenceTransformer, util
 
 import models
 
+# add a CORS to allow localhost:3000/ to access the API
+
+# add a CORS to allow localhost:3000/ to access the API
 # import texts and vectors df
 
 text_chunks_and_vectors_df = pd.read_csv('text_chunks_and_vectors_df.csv')
@@ -63,6 +67,17 @@ def retrieve_relevant_resources(
 
 ############################
 app = FastAPI()
+
+# add a CORS to allow localhost:3000/ to access the API
+# this is a middleware that allows the API to be accessed by the frontend, which I built in Nextjs.
+ALLOWED_HOST = os.getenv('ALLOWED_HOST')
+app.add_middleware(
+  CORSMiddleware,
+  allow_origins=[ALLOWED_HOST],
+  allow_credentials=True,
+  allow_methods=["GET", "POST"],
+  allow_headers=["*"],
+)
 
 router = APIRouter(
   prefix="/viatours-agent",
