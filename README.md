@@ -7,6 +7,7 @@
 
 ```
 OPEN_AI_API=your_api_key
+ALLOWED_HOST=your_allowed_host
 ```
 
 - Run `pip3 install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121`
