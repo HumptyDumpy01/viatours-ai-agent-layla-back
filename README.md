@@ -30,7 +30,7 @@ OPEN_AI_API=your_api_key
 - The Application uses the Pydantic library for data validation;
 - The response from an API endpoint is rapid, usually less than 1-2 seconds;
 
-This Application is done by me, as a part of the Viatours.
+This Application is done by me, as a part of the Viatours Full-Stack Project.
 
 
 
