@@ -10,4 +10,6 @@ class Query(BaseModel):
 
 class Response(BaseModel):
   response: str = Field(min_length=1)
+  status: int = Field(200)
+  query: str = Field(min_length=1, max_length=600)
   date: str = Field(min_length=1, max_length=100, default_factory=lambda: datetime.now().isoformat())
