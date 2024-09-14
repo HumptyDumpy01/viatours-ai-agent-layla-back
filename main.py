@@ -118,6 +118,7 @@ async def get_response(request: Request):
     query = data.get('query')
     # remove all "!" and "," characters from the query
     query = query.replace('!', '').replace(',', '').replace('?', '').replace('.', '').replace(';', '').replace(':', '')
+    prevResponses = data.get('chatHistory')
 
     if not query:
       raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='Query is required!')
@@ -148,13 +149,16 @@ async def get_response(request: Request):
 
     print(f'''Top Vectors Converted to Text: {top_vectors_converted_to_text}''')
 
-    prefix = '''You are Viatours Artificial Intelligence Agent model developed by Nikolas Tuz, Software Engineer. 
+    prefix = f'''You are Viatours Artificial Intelligence Agent model developed by Nikolas Tuz, Software Engineer. 
     Your name is Layla AI Agent. You are developed for one purpose: To help Viatours Customers with their questions. Viatours is a
      fictional tourism  company that provides you with the ability to search, surf different tours and buy tickets. Also you can search 
      for different Viatours Tourism Articles. Again, this project is not a real company, it is a fictional company and the overall application is 
      a prototype and Nikolas Tuz's portfolio project. 
      TO GPT: Also, if your answer becomes huge, it would be good 
-     if it won't succeed 800 characters. Please, answer the following viatours user question:'''
+     if it won't succeed 800 characters. 
+     Before answering the question, check the history of last 6 questions and answers if there are any. It can help you to give a better answer.
+     Chatbot History: {prevResponses}
+     Please, answer the following viatours user question:'''
 
     final_prompt = f"{prefix} {queryVal}\n\nContext: {joined_text}"
 
