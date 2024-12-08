@@ -119,6 +119,7 @@ async def get_response(request: Request):
     # remove all "!" and "," characters from the query
     query = query.replace('!', '').replace(',', '').replace('?', '').replace('.', '').replace(';', '').replace(':', '')
     prevResponses = data.get('chatHistory')
+    print('Previous responses:', prevResponses)
 
     if not query:
       raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='Query is required!')
@@ -160,6 +161,8 @@ async def get_response(request: Request):
      Chatbot History: {prevResponses}
      Please, answer the following viatours user question:'''
 
+    # print('Executing prevResponses', prevResponses)
+
     final_prompt = f"{prefix} {queryVal}\n\nContext: {joined_text}"
 
     load_dotenv()
@@ -192,7 +195,7 @@ async def get_response(request: Request):
     # IMPORTANT: THESE LINES OF CODE ARE COMMENTED OUT BECAUSE OF THE API USAGE.
     # IMPORTANT: BY UNCOMMENTING THESE LINES, YOU WILL USE THE API CREDITS.
     answer = generate_answer(prompt, api_key)
-    print(f"Generated Answer: {answer}")
+    # print(f"Generated Answer: {answer}")
 
     response = models.Response(response=answer, status=status.HTTP_200_OK, query=query, date=queryObj.date)
 
